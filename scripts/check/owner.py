@@ -1,7 +1,6 @@
 import asyncio
 import os
 
-from scripts.changed.repo import get_repo
 from scripts.helpers.event import get_event
 from scripts.remove_publishers import REMOVED_PUBLISHERS
 from aiogithubapi import GitHub, AIOGitHubAPIException
@@ -11,7 +10,7 @@ TOKEN = os.getenv("GITHUB_TOKEN")
 
 async def check():
     print("Information: https://hacs.xyz/docs/publish/include#check-owner")
-    repo = get_repo()
+    repo = os.environ["REPOSITORY"]
     event = get_event()
     actor = event["pull_request"]["user"]["login"]
     repo_owner = repo.split("/")[0].lower()
@@ -34,7 +33,7 @@ async def check():
             )
             contributors = [
                 {"login": x["login"], "contributions": x["contributions"]}
-                for x in request or []
+                for x in request.data or []
             ]
             _sorted = sorted(
                 contributors, key=lambda x: x["contributions"], reverse=True
@@ -45,7 +44,7 @@ async def check():
             if actor not in [x["login"] for x in _sorted]:
                 exit(f"::error::'{actor}' is not a contributor to '{repo}'")
 
-            if [x["contributions"] for x in _sorted if x["login"] == actor].pop() > (
+            if [x["contributions"] for x in _sorted if x["login"] == actor].pop() >= (
                 _top / 3
             ):
                 print(f"'{actor}' is a major contributor to '{repo}'")

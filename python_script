@@ -1,10 +1,12 @@
 [
   "bieniu/ha-shellies-discovery",
+  "bieniu/ha-shellies-discovery-gen2",
   "bieniu/ha-thermostat-update",
   "eyalcha/ha-reminder",
   "iml885203/HA-FanSpeedControl",
+  "kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant",
   "kodi1/tracker_merge",
-  "mf-social/ps-date-countdown",
   "pmazz/ps_hassio_entities",
+  "point-4ward/ps-date-countdown",
   "Santobert/HA-UpdateClimate"
 ]
